@@ -1,8 +1,9 @@
-import { Server } from './config';
+import { Server, Database } from './config/index.js';
 import express from 'express';
-import appRouter from './routes';
+import appRouter from './routes/index.js';
 
 (async () => {
+    await Database.connect();
     await main();
 })();
 
