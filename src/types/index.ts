@@ -1,2 +1,2 @@
-export * from './product.type.js';
-export * from './user.type.js';
+export * from './mongo/product.type.js';
+export * from './mongo/user.type.js';
