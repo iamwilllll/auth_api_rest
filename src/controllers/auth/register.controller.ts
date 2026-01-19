@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../../models/index.js';
-import { ApiResponse, getUserWithOutPass, hashPassword } from '../../helpers/index.js';
+import { ApiResponse } from '../../helpers/index.js';
+import { getUserWithOutPass, hashPassword } from '../../utils/index.js';
 import { type UserWithOutPassT } from '../../types/index.js';
 
 export async function registerController(req: Request, res: Response, next: NextFunction) {
