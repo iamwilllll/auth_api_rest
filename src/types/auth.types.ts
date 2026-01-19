@@ -4,3 +4,9 @@ export type RegisterT = {
     password: string;
     repeatPassword: string;
 };
+
+export type LoginT = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+};

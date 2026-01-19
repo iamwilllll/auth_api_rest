@@ -5,3 +5,5 @@ export type UserT = {
     password: string;
     role: 'admin' | 'user';
 };
+
+export type UserWithOutPassT = Omit<UserT, 'password'>;

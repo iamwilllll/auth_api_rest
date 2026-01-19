@@ -14,4 +14,4 @@ const UserSchema = new Schema<UserDocT>(
     { timestamps: true, versionKey: false }
 );
 
-export const UserModel = mongoose.model('users', UserSchema);
+export const UserModel = mongoose.model('User', UserSchema);

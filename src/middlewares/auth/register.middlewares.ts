@@ -1,6 +1,5 @@
 import { body } from 'express-validator';
 
-//* preset middlewares
 export const registerMiddlewares = [
     body('name').trim().notEmpty().withMessage('Name is required.'),
     body('email').trim().notEmpty().withMessage('Email is required.').toLowerCase().isEmail().withMessage('Invalid email.'),

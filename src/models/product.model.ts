@@ -15,4 +15,4 @@ const ProductSchema = new Schema<ProductDocT>(
     { timestamps: true, versionKey: false }
 );
 
-export const ProductModel = mongoose.model('products', ProductSchema);
+export const ProductModel = mongoose.model('Product', ProductSchema);
