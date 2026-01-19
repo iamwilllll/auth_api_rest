@@ -10,7 +10,7 @@ export class Database {
         try {
             if (!url) throw new Error('database url is not defined');
             const { connection } = await mongoose.connect(url);
-            console.log(colors.cyan.bold(`databse was sucessfull connection on ${connection.host}:${connection.port}`));
+            console.log(colors.cyan.bold(`database was successful connection on ${connection.host}:${connection.port}`));
         } catch (err) {
             console.log(err);
             exit(1);
