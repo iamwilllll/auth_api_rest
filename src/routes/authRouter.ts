@@ -13,6 +13,7 @@ import {
     loginMiddlewares,
     refreshEmailVerificationCodeMiddlewares,
     emailConfirmMiddlewares,
+    authenticate,
 } from '../middlewares/index.js';
 import { logoutController } from '../controllers/auth/logout.controller.js';
 
@@ -27,5 +28,5 @@ authRouter.post(
 );
 authRouter.post('/email/confirm', emailConfirmMiddlewares, emailConfirmController, errorMiddleware);
 authRouter.post('/login', loginMiddlewares, loginController, errorMiddleware);
-authRouter.post('/logout', logoutController, errorMiddleware);
+authRouter.post('/logout', authenticate, logoutController, errorMiddleware);
 export default authRouter;
