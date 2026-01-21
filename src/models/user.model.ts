@@ -12,6 +12,7 @@ const UserSchema = new Schema<UserDocT>(
         role: { type: String, required: true, trim: true, default: 'user' },
         otpCode: { type: String, required: false, trim: true },
         otpCodeExpiration: { type: Date, required: false },
+        verified: { type: Boolean, required: true, default: false },
     },
     { timestamps: true, versionKey: false }
 );

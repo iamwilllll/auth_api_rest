@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import { handleInputErrors } from '../handleInputErrors.middleware.js';
 
 export const registerMiddlewares = [
     body('name').trim().notEmpty().withMessage('Name is required.'),
@@ -10,4 +11,5 @@ export const registerMiddlewares = [
         .withMessage('Repeat password is required.')
         .custom((repeatPassword, { req }) => (repeatPassword !== req.body.password ? false : true))
         .withMessage('Passwords not match'),
+    handleInputErrors,
 ];

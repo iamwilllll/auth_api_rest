@@ -17,6 +17,7 @@ export async function loginController(req: Request, res: Response, next: NextFun
         const passMatch = await comparePassword(password, findUser.password);
         if (!passMatch) throw credentialError;
 
+        if (!findUser.verified) throw new AppError('Authentication error.', 401, 'AUTH_ERROR');
         let duration = env.TIMES.THREE_HOURS;
         if (rememberMe) duration = env.TIMES.THREE_DAYS;
 
@@ -28,7 +29,6 @@ export async function loginController(req: Request, res: Response, next: NextFun
         });
 
         const currentSession = await newSession.save();
-        console.log(currentSession._id);
         const JWT = createJWT(currentSession._id.toString(), duration);
 
         res.cookie('sessionId', JWT, {

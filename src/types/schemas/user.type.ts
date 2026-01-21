@@ -6,6 +6,7 @@ export type UserT = {
     role: 'admin' | 'user';
     otpCode: string;
     otpCodeExpiration: Date;
+    verified: boolean;
 };
 
 export type UserWithOutPassT = Omit<UserT, 'password'>;
