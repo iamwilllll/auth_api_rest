@@ -21,6 +21,8 @@ export async function loginController(req: Request, res: Response, next: NextFun
         let duration = env.TIMES.THREE_HOURS;
         if (rememberMe) duration = env.TIMES.THREE_DAYS;
 
+        await SessionModel.updateMany({ userId: findUser._id, isValid: true }, { isValid: false });
+
         const newSession = new SessionModel({
             userId: findUser._id,
             isValid: true,
