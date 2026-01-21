@@ -14,6 +14,7 @@ import {
     refreshEmailVerificationCodeMiddlewares,
     emailConfirmMiddlewares,
 } from '../middlewares/index.js';
+import { logoutController } from '../controllers/auth/logout.controller.js';
 
 const authRouter: Router = Router();
 
@@ -26,5 +27,5 @@ authRouter.post(
 );
 authRouter.post('/email/confirm', emailConfirmMiddlewares, emailConfirmController, errorMiddleware);
 authRouter.post('/login', loginMiddlewares, loginController, errorMiddleware);
-
+authRouter.post('/logout', logoutController, errorMiddleware);
 export default authRouter;
