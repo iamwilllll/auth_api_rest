@@ -3,6 +3,8 @@ import 'dotenv/config';
 export const env = {
     PORT: process.env.PORT || 3000,
     SALT: process.env.SALT_ROUNDS,
+    isDev: process.env.NODE_ENV === 'development',
+    baseUrl: process.env.BASE_URL || '',
 
     DB: {
         URL: process.env.DATABASE_URL || '',
