@@ -22,11 +22,15 @@ export async function forgotPasswordController(req: Request, res: Response, next
         const templatePath = path.join(process.cwd(), 'src', 'email_templates', 'ResetYourPassword.html');
         const resetPasswordEmailTemplate = fs.readFileSync(templatePath, 'utf-8');
         const html = resetPasswordEmailTemplate.replace('*resetCode*', otpCode);
-        await sendEmailService({ to: email, subject: 'Rest password code', html });
-
+        
         const savedUser = await user.save();
-        const UserWithOutPass = getUserWithOutPass(savedUser.toObject());
-        ApiResponse.success<UserWithOutPassT>(res, 201, 'User was created successful', UserWithOutPass);
+        const userWithOutPass = getUserWithOutPass(savedUser.toObject());
+        
+        await sendEmailService({ to: email, subject: 'Rest password code', html });
+        ApiResponse.success<{ user: UserWithOutPassT; otpCode: string }>(res, 201, 'User was created successful', {
+            user: userWithOutPass,
+            otpCode,
+        });
     } catch (err) {
         next(err);
     }

@@ -23,13 +23,17 @@ export async function registerController(req: Request, res: Response, next: Next
 
         const templatePath = path.join(process.cwd(), 'src', 'email_templates', 'VerifyAccount.html');
         const resetPasswordEmailTemplate = fs.readFileSync(templatePath, 'utf-8');
-        const html = resetPasswordEmailTemplate.replace('*resetCode*', otpCode);
+        const html = resetPasswordEmailTemplate.replace('*verificationCode*', otpCode);
 
-        await sendEmailService({ to: email, subject: 'Email verification code', html });
         const savedUser = await newUser.save();
         const userWithOutPass = getUserWithOutPass(savedUser.toObject());
 
-        ApiResponse.success<UserWithOutPassT>(res, 201, 'User was created successful', userWithOutPass);
+        await sendEmailService({ to: email, subject: 'Email verification code', html });
+
+        ApiResponse.success<{ user: UserWithOutPassT; otpCode: string }>(res, 201, 'User was created successful', {
+            user: userWithOutPass,
+            otpCode,
+        });
     } catch (err) {
         next(err);
     }

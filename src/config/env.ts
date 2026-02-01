@@ -30,5 +30,6 @@ export const env = {
 
     RESEND: {
         API_KEY: process.env.RESEND_API_KEY || '',
+        USER: process.env.RESEND_USER || '',
     },
 };

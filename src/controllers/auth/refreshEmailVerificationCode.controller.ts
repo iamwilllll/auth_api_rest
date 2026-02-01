@@ -27,11 +27,14 @@ export async function refreshEmailVerificationCodeController(req: Request, res: 
         const resetPasswordEmailTemplate = fs.readFileSync(templatePath, 'utf-8');
         const html = resetPasswordEmailTemplate.replace('*verificationCode*', otpCode);
 
-        await sendEmailService({ to: email, subject: 'Email verification code', html });
-
+        
         const savedUser = await findUser.save();
         const userWithOutPass = getUserWithOutPass(savedUser.toObject());
-        ApiResponse.success<UserWithOutPassT>(res, 201, 'OTP Code was refresh successful', userWithOutPass);
+        await sendEmailService({ to: email, subject: 'Email verification code', html });
+        ApiResponse.success<{ user: UserWithOutPassT; otpCode: string }>(res, 201, 'User was created successful', {
+            user: userWithOutPass,
+            otpCode,
+        });
     } catch (err) {
         next(err);
     }
