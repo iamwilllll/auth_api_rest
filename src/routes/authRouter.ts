@@ -38,6 +38,4 @@ authRouter.get('/me', authenticate, loadUser, getCurrentUserController, errorMid
 authRouter.post('/password/forgot', forgotPasswordMiddlewares, forgotPasswordController, errorMiddleware);
 authRouter.post('/password/reset', emailConfirmMiddlewares, resetPasswordController, errorMiddleware);
 
-
-
 export default authRouter;
