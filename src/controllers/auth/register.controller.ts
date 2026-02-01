@@ -6,6 +6,7 @@ import { type UserWithOutPassT } from '../../types/index.js';
 import { env } from '../../config/env.js';
 import { sendEmailService } from '../../services/sendEmail.service.js';
 import fs from 'node:fs';
+import path from 'node:path';
 
 export async function registerController(req: Request, res: Response, next: NextFunction) {
     try {
@@ -20,7 +21,8 @@ export async function registerController(req: Request, res: Response, next: Next
             otpCodeExpiration: new Date(Date.now() + env.TIMES.TEN_MINUTES),
         });
 
-        const resetPasswordEmailTemplate = fs.readFileSync('./../../email_templates/VerifyAccount.html', 'utf-8');
+        const templatePath = path.join(process.cwd(), 'src', 'email_templates', 'VerifyAccount.html');
+        const resetPasswordEmailTemplate = fs.readFileSync(templatePath, 'utf-8');
         const html = resetPasswordEmailTemplate.replace('*resetCode*', otpCode);
 
         await sendEmailService({ to: email, subject: 'Email verification code', text: otpCode, html });
