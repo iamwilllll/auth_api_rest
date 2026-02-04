@@ -39,6 +39,7 @@ export async function loginController(req: Request, res: Response, next: NextFun
             httpOnly: true,
             secure: true,
             maxAge: duration,
+            sameSite: 'none'
         });
 
         ApiResponse.success(res, 200, 'Login was successful', {
