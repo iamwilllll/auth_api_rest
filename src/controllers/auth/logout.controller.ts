@@ -6,14 +6,27 @@ import { SessionModel } from '../../models/session.model.js';
 export async function logoutController(req: Request, res: Response, next: NextFunction) {
     try {
         const sessionId = req.sessionId;
+
+        if (!sessionId) {
+            throw new AppError('Session not found.', 404, 'SESSION_ERROR');
+        }
+
         const findSession = await SessionModel.findById(sessionId);
-        if (!findSession) throw new AppError('Session not found.', 404, 'SESSION_ERROR');
+
+        if (!findSession) {
+            throw new AppError('Session not found.', 404, 'SESSION_ERROR');
+        }
 
         findSession.isValid = false;
-        findSession.save();
+        await findSession.save();
 
-        res.clearCookie('sessionId');
-        ApiResponse.success(res, 200, 'Logged out was successful');
+        res.clearCookie('sessionId', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+        });
+
+        ApiResponse.success(res, 200, 'Logout was successful');
     } catch (err) {
         next(err);
     }

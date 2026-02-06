@@ -19,7 +19,7 @@ export async function loginController(req: Request, res: Response, next: NextFun
         if (!passMatch) throw credentialError;
 
         if (!findUser.verified) throw new AppError('Authentication error.', 401, 'AUTH_ERROR');
-        
+
         await SessionModel.updateMany({ userId: findUser._id, isValid: true }, { isValid: false });
 
         const duration = rememberMe ? env.TIMES.THREE_DAYS : env.TIMES.THREE_HOURS;
@@ -39,7 +39,7 @@ export async function loginController(req: Request, res: Response, next: NextFun
             httpOnly: true,
             secure: true,
             maxAge: duration,
-            sameSite: 'none'
+            sameSite: 'none',
         });
 
         ApiResponse.success(res, 200, 'Login was successful', {

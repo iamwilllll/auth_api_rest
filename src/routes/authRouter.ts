@@ -34,7 +34,7 @@ authRouter.put(
 );
 authRouter.put('/email/confirm', emailConfirmMiddlewares, emailConfirmController, errorMiddleware);
 authRouter.post('/login', loginMiddlewares, loginController, errorMiddleware);
-authRouter.post('/logout', logoutController, errorMiddleware);
+authRouter.post('/logout', authenticate, logoutController, errorMiddleware);
 authRouter.get('/me', authenticate, loadUser, getCurrentUserController, errorMiddleware);
 authRouter.post('/password/forgot', forgotPasswordMiddlewares, forgotPasswordController, errorMiddleware);
 authRouter.post('/password/reset', resetPasswordMiddlewares, resetPasswordController, errorMiddleware);
