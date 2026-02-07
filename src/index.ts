@@ -12,6 +12,7 @@ import { env } from './config/env.js';
 
 async function main() {
     const server = Server.init();
+    server.set('trust proxy', 1);
 
     //* cors configuration
     const allowedOrigins: string[] = [env.baseUrl, 'http://localhost:5173', 'http://localhost:3000'];
