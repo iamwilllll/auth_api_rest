@@ -11,9 +11,9 @@ import path from 'node:path';
 export async function registerController(req: Request, res: Response, next: NextFunction) {
     try {
         const { name, email, password, repeatPassword } = req.body;
-        if (password !== repeatPassword) return ApiResponse.error(res, 400, 'CREDENTIAL_ERROR', 'Passwords not match');
+        if (password !== repeatPassword) return ApiResponse.error(res, 400, 'Passwords not match', 'CREDENTIAL_ERROR');
         const existingUser = await UserModel.findOne({ email });
-        if (existingUser) return ApiResponse.error(res, 400, 'CREDENTIAL_ERROR', 'User with this email already exists.');
+        if (existingUser) return ApiResponse.error(res, 400, 'User with this email already exists.', 'CREDENTIAL_ERROR');
 
         const otpCode = createOtpCode();
         const newUser = new UserModel({

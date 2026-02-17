@@ -10,12 +10,7 @@ export function errorMiddleware(err: Error, req: Request, res: Response, next: N
     }
 
     if (err instanceof MongoServerError && err.code === 11000) {
-        return ApiResponse.error(
-            res,
-            409,
-            'This username is already in use. Please choose another one.',
-            'EMAIL_DUPLICATION_ERROR'
-        );
+        return ApiResponse.error(res, 409, 'This username is already in use. Please choose another one.', 'EMAIL_DUPLICATION_ERROR');
     }
 
     console.error('UNEXPECTED ERROR:', {
