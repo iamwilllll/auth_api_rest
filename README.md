@@ -14,3 +14,17 @@ if not contain this code will throw problem
 email: string
 otpCode: string
 }
+
+**url**/api/auth/email/refresh
+{
+email: string
+}
+_verificationCode_
+
+**url**/api/auth/login
+{
+email: string
+password: string
+rememberMe: boolean
+}
+

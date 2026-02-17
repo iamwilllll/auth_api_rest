@@ -12,21 +12,21 @@ export async function loginController(req: Request, res: Response, next: NextFun
         const { email, password, rememberMe } = req.body;
         const credentialError = new AppError('Credential error.', 400, 'CREDENTIAL_ERROR');
 
-        const findUser = await UserModel.findOne({ email });
-        if (!findUser) throw credentialError;
+        const existingUser = await UserModel.findOne({ email }).select('+password');
 
-        const passMatch = await comparePassword(password, findUser.password);
+        if (!existingUser) throw credentialError;
+        if (existingUser?.verified === false) throw new AppError('Authentication error.', 401, 'AUTH_ERROR');
+
+        const passMatch = await comparePassword(password, existingUser.password);
         if (!passMatch) throw credentialError;
 
-        if (!findUser.verified) throw new AppError('Authentication error.', 401, 'AUTH_ERROR');
-
-        await SessionModel.updateMany({ userId: findUser._id, isValid: true }, { isValid: false });
+        await SessionModel.updateMany({ userId: existingUser._id, isValid: true }, { isValid: false });
 
         const duration = rememberMe ? env.TIMES.THREE_DAYS : env.TIMES.THREE_HOURS;
         const jwtDuration = rememberMe ? '3d' : '1h';
 
         const newSession = new SessionModel({
-            userId: findUser._id,
+            userId: existingUser._id,
             isValid: true,
             rememberMe,
             expiresAt: new Date(Date.now() + duration),
@@ -42,10 +42,7 @@ export async function loginController(req: Request, res: Response, next: NextFun
             sameSite: 'none',
         });
 
-        ApiResponse.success(res, 200, 'Login was successful', {
-            user: getUserWithOutPass(findUser.toObject()),
-            session: currentSession,
-        });
+        return ApiResponse.success(res, 200, 'Login was successful', { user: getUserWithOutPass(existingUser.toObject()) });
     } catch (err) {
         next(err);
     }
