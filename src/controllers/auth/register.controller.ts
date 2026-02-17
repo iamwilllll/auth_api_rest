@@ -28,15 +28,14 @@ export async function registerController(req: Request, res: Response, next: Next
         const resetPasswordEmailTemplate = fs.readFileSync(templatePath, 'utf-8');
         const html = resetPasswordEmailTemplate.replace('*verificationCode*', otpCode);
 
-        await sendEmailService({ to: email, subject: 'Email verification code', html });
-
         const savedUser = await newUser.save();
+        await sendEmailService({ to: email, subject: 'Email verification code', html });
 
         //! DEV ONLY:
         //! The OTP is exposed in the response to simulate email delivery
         //! during development. In production, OTPs must be sent via a secure
         //! email provider and never returned in API responses.
-        ApiResponse.success<{ user: UserWithOutPassT; otpCode: string }>(res, 201, 'User was created successful', {
+        return ApiResponse.success<{ user: UserWithOutPassT; otpCode: string }>(res, 201, 'User was created successful', {
             user: getUserWithOutPass(savedUser.toObject()),
             otpCode,
         });

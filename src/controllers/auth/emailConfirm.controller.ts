@@ -25,7 +25,7 @@ export async function emailConfirmController(req: Request, res: Response, next: 
             { new: true }
         );
 
-        ApiResponse.success<UserWithOutPassT>(res, 200, 'Email successfully verified', getUserWithOutPass(updatedUser!.toObject()));
+        return ApiResponse.success<UserWithOutPassT>(res, 200, 'Email successfully verified', getUserWithOutPass(updatedUser!.toObject()));
     } catch (err) {
         next(err);
     }
