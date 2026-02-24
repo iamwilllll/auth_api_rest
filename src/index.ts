@@ -4,6 +4,8 @@ import appRouter from './routes/index.js';
 import cookieParser from 'cookie-parser';
 import cors, { CorsOptions } from 'cors';
 import { env } from './config/env.js';
+import path from 'node:path';
+import { fileURLToPath } from 'url';
 
 (async () => {
     await Database.connect();
@@ -39,4 +41,11 @@ async function main() {
 
     //* routes
     server.use('/api', appRouter);
+
+    // * static files
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    server.use(express.static(path.join(__dirname, 'public')));
+    server.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 }
