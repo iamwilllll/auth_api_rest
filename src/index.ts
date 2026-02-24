@@ -47,5 +47,5 @@ async function main() {
     const __dirname = path.dirname(__filename);
 
     server.use(express.static(path.join(__dirname, 'static')));
-    server.get('/', (req, res) => res.sendFile(path.join(__dirname, 'static', 'index.html')));
+    server.get('/', (req, res) => res.sendFile(path.join(__dirname, 'static', 'docs.html')));
 }
