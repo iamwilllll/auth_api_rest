@@ -25,8 +25,8 @@ import { logoutController } from '@/controllers/auth/logout.controller.js';
 const authRouter: Router = Router();
 
 authRouter.post('/register', registerMiddlewares, registerController);
-authRouter.put('/email/confirm', emailConfirmMiddlewares, emailConfirmController);
-authRouter.put('/email/refresh', refreshEmailVerificationCodeMiddlewares, refreshEmailVerificationCodeController);
+authRouter.post('/email/confirm', emailConfirmMiddlewares, emailConfirmController);
+authRouter.post('/email/refresh', refreshEmailVerificationCodeMiddlewares, refreshEmailVerificationCodeController);
 authRouter.post('/login', loginMiddlewares, loginController);
 authRouter.post('/logout', authenticate, logoutController);
 authRouter.get('/me', authenticate, loadUser, getCurrentUserController);
