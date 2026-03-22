@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { env } from '../config/env.js';
+import { env } from '@/config/env.js';
 
 type SendEmailServiceProps = {
     to: string;
@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
         user: USER,
         pass: PASSWORD,
     },
-});
+} as nodemailer.TransportOptions);
 
 export async function sendEmailService({ to, subject, text, html }: SendEmailServiceProps) {
     if (env.isDev) {
