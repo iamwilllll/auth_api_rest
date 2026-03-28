@@ -2,7 +2,7 @@ import 'module-alias/register';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors, { CorsOptions } from 'cors';
-import createCSM from '@wilfrynvil/api-documentation';
+import createCSM from 'docify-api';
 
 import { appRouter } from '@/routes/index.js';
 import { Server, Database, env } from '@/config/index.js';
